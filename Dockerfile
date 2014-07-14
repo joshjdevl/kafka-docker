@@ -1,11 +1,23 @@
-FROM ubuntu
+from ubuntu:trusty
+MAINTAINER joshjdevl < joshjdevl [at] gmail {dot} com>
+ENV http_proxy http://192.109.76.92:8080
+ENV https_proxy http://192.109.76.92:8080
+ENV DEBIAN_FRONTEND noninteractive
 
-MAINTAINER Wurstmeister 
-RUN echo "deb http://archive.ubuntu.com/ubuntu precise universe" >> /etc/apt/sources.list; apt-get update; apt-get install -y unzip  openjdk-6-jdk wget git
+RUN apt-get update && apt-get -y install python-software-properties software-properties-common
+RUN add-apt-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) universe"
+RUN apt-get update 
+RUN apt-get install -y unzip  openjdk-6-jdk wget git coreutils
 
-RUN wget -q http://mirror.gopotato.co.uk/apache/kafka/0.8.1.1/kafka_2.8.0-0.8.1.1.tgz -O /tmp/kafka_2.8.0-0.8.1.1.tgz
-RUN tar xfz /tmp/kafka_2.8.0-0.8.1.1.tgz -C /opt
+ENV SCALA_VERSION 2.9.2
+RUN wget -q http://www.scala-lang.org/files/archive/scala-$SCALA_VERSION.tgz -O /tmp/scala_$SCALA_VERSION.tgz
+RUN tar xfz /tmp/scala_$SCALA_VERSION.tgz -C /opt
 
-ENV KAFKA_HOME /opt/kafka_2.8.0-0.8.1.1
+ENV KAFKA_VERSION 2.9.2-0.8.1.1
+RUN wget -q https://archive.apache.org/dist/kafka/0.8.1.1/kafka_$KAFKA_VERSION.tgz -O /tmp/kafka_$KAFKA_VERSION.tgz
+RUN tar xfz /tmp/kafka_$KAFKA_VERSION.tgz -C /opt
+
+ENV KAFKA_HOME /opt/kafka_$KAFKA_VERSION
+ENV PATH /opt/scala_$SCALA_VERSION/bin:$KAFKA_HOME/bin:$PATH
 ADD start-kafka.sh /usr/bin/start-kafka.sh 
 CMD start-kafka.sh 
