@@ -1,1 +1,1 @@
-sudo docker build -t joshjdevl/kafka .
+docker build -t joshjdevl/kafka .
