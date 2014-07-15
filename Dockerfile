@@ -1,7 +1,5 @@
 from ubuntu:trusty
 MAINTAINER joshjdevl < joshjdevl [at] gmail {dot} com>
-ENV http_proxy http://192.109.76.92:8080
-ENV https_proxy http://192.109.76.92:8080
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get -y install python-software-properties software-properties-common
