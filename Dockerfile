@@ -18,4 +18,6 @@ RUN tar xfz /tmp/kafka_$KAFKA_VERSION.tgz -C /opt
 ENV KAFKA_HOME /opt/kafka_$KAFKA_VERSION
 ENV PATH /opt/scala_$SCALA_VERSION/bin:$KAFKA_HOME/bin:$PATH
 ADD start-kafka.sh /usr/bin/start-kafka.sh 
+ADD kafka-commands/createTopic.sh /usr/bin/createTopic.sh
+ADD kafka-commands/describeTopic.sh /usr/bin/describeTopic.sh
 CMD start-kafka.sh 
