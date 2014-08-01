@@ -1,11 +1,16 @@
-from ubuntu:trusty
+from ubuntu:precise
 MAINTAINER joshjdevl < joshjdevl [at] gmail {dot} com>
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get -y install python-software-properties software-properties-common
 RUN add-apt-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) universe"
 RUN apt-get update 
-RUN apt-get install -y unzip  openjdk-6-jdk wget git coreutils
+
+RUN add-apt-repository ppa:apt-fast/stable
+RUN apt-get update
+RUN apt-get -y install apt-fast
+
+RUN apt-fast install -y unzip  openjdk-7-jdk wget git coreutils
 
 ENV SCALA_VERSION 2.9.2
 RUN wget -q http://www.scala-lang.org/files/archive/scala-$SCALA_VERSION.tgz -O /tmp/scala_$SCALA_VERSION.tgz
